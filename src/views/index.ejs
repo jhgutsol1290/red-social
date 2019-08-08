@@ -1,0 +1,161 @@
+<%include partials/head %>
+
+    <div class="container-fluid mb-5">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-3">
+                        <form action="/search" method="GET" class="form-inline my-2 my-lg-0">
+                            <div class="form-group mr-1">
+                                <select name="title" class="custom-select" required>
+                                    <option selected>Filtrar por programa...</option>
+                                    <% videosTitle.map(function(video, i){ %>
+                                        <option><%- video %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline-info my-2 my-sm-0" type="submit"><i class="fas fa-filter"></i> Aplicar</button>
+                        </form>
+                    </div>
+
+                    <div class="col-md-4">
+                            <form action="/search/date" method="GET" class="form-inline my-2 my-lg-0">
+                                <div class="form-group mr-1">
+                                    <label for="date">Filtrar por fecha</label>
+                                    <input class="form-control mr-sm-1 ml-1" type="date" name="date" aria-label="Search">
+                                </div>
+                                <button class="btn btn-outline-info my-1 my-sm-0" type="submit"><i class="fas fa-filter"></i> Aplicar</button>
+                            </form>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input class="form-control" type="text"  id="formulario" aria-label="Search" placeholder="Filtro por título...">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="container text-center p-4 mt-2">
+                    <div class="row" id="resultados">
+                        <% videos.map(function(video, i){ %>
+                            <div class="card col-md-3 p-1 m-4 card-profile">
+                                <div class="card-header font-weight-bold">
+                                    <h5 class="card-title mt-2 titleVideo"><%= video.title %></h5>
+                                </div>
+                                <a href="/video/<%= video._id %>">
+                                    <div class="card-body p-1">
+                                        <img src="/public/upload/<%= video.filename %>" class="img-fluid w-100 h-100 mb-1" alt="">
+                                        <p class="card-title mt-2"><%= video.description %></p>
+                                        <p class="card-text date-text text-muted"><%= video.date.toISOString() %></p>
+                                    </div>
+                                </a>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <%include partials/stats %>
+                <%include partials/popular %>
+                <%include partials/viewed %>
+            </div>
+        </div>
+        <div class="row">
+            <!-- pagination -->
+            <% if(pages > 0) { %> <!-- show pagination if there is pages -->
+                <nav class="offset-md-4">
+                <ul class="pagination">
+                    <!-- FIRST ITEM -->
+                    <% if(current == 1) { %>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Inicio</a>
+                    </li>
+                    <% } else { %>
+                    <li class="page-item">
+                        <a class="page-link" href="/pages/1">Inicio</a>
+                    </li>
+                    <% } %>
+                    <!-- ITEMS  -->
+                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if(i !== 1) { %>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">...</a>
+                    </li>
+                    <% } %>
+                    <% for(; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                    <% if(i == current) { %>
+                        <li class="page-item active">
+                        <a class="page-link" href="<%= i %>">
+                            <%= i %>
+                        </a>
+                        </li>
+                    <% } else { %>
+                        <li class="page-item">
+                        <a class="page-link" href="/pages/<%= i %>">
+                            <%= i %>
+                        </a>
+                        </li>
+                    <% } %>
+                    <% if (i == Number(current) + 4 && i < pages) { %>
+                        <li class="page-item disabled">
+                        <a class="page-link" href="#">...</a>
+                        </li>
+                    <% } %>
+                    <% } %>
+                    <!-- LAST ITEM -->
+                    <% if(current == pages) { %>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">
+                        Fin
+                        </a>
+                    </li>
+                    <% } else { %>
+                    <li class="page-item">
+                        <a class="page-link" href="/pages/<%= pages %>">
+                        Fin
+                        </a>
+                    </li>
+                    <% } %>
+                </ul>
+                </nav>
+            <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let videos = <%- JSON.stringify(videos) %>
+        
+        const formulario = document.querySelector('#formulario')
+        const boton = document.querySelector('#boton')
+        const resultado = document.querySelector('#resultados')
+
+        const filtrar = () =>{
+            resultado.innerHTML = ''
+            const texto = formulario.value.toLowerCase()
+            for(let titulo of videos){
+                let newDate = titulo.date.substr(0,10)
+                let nombre = titulo.title.toLowerCase()
+                if(nombre.indexOf(texto) !== -1){
+                    resultado.innerHTML += `
+                            <div class="card col-md-3 p-1 m-4 card-profile">
+                                <div class="card-header font-weight-bold">
+                                    <h5 class="card-title mt-2 titleVideo">${titulo.title}</h5>
+                                </div>
+                                <a href="/video/${titulo._id}">
+                                    <div class="card-body p-1">
+                                        <img src="/public/upload/${titulo.filename}" class="img-fluid w-100 h-100 mb-1" alt="">
+                                        <p class="card-title mt-2">${titulo.description}</p>
+                                        <p class="card-text date-text text-muted">${newDate}</p>
+                                    </div>
+                                </a>
+                            </div>
+                    `
+                }
+            }
+        }
+
+        formulario.addEventListener('keyup', filtrar)
+    </script>
+
+<%include partials/footer %>

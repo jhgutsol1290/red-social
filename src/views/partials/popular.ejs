@@ -1,0 +1,22 @@
+<div class="card mb-2">
+        <div class="card-header bg-info text-white">
+            <h5><i class="fas fa-heart"></i> Contenido más popular</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <% popular.map(function(el, i){ %>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item card-profile">
+                            <p class="display-5 font-weight-bold"><%- i + 1 %>.</p>
+                            <a href="/video/<%= el._id %>">
+                                <img src="/public/upload/<%= el.filename %>" alt="img" class="w-100 h-100 img-thumbnail p-5">
+                                <p class="mt-2 text-center font-weight-bold"><%- el.title %></p>
+                                <p class="mt-2 text-center date-text text-muted"><%- el.date.toISOString() %></p>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                <% }) %>
+            </div>
+        </div>
+    </div>
