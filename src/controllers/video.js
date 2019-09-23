@@ -12,7 +12,6 @@ const ctrl = {}
 
 ctrl.index = async (req, res) => {
     const id = req.params.id
-
     const video = await Video.findById(id)
     if(!video){
         return res.status(404).json({
@@ -22,12 +21,9 @@ ctrl.index = async (req, res) => {
             }
         })
     }
-
     video.views = video.views + 1
     await video.save()
-
     res.render('profile', {video})
-
 }
 
 ctrl.create = (req, res) => {
@@ -47,6 +43,7 @@ ctrl.create = (req, res) => {
                     title: req.body.title,
                     description: req.body.description,
                     authors: req.body.authors,
+                    duration: req.body.duration,
                     filename: videoUrl + ext,
                     link: req.body.link,
                     date: req.body.date
@@ -126,6 +123,45 @@ ctrl.searchWord = async (req, res) => {
         current: 1,
         pages: 1
     })
+}
+
+ctrl.filter = async (req, res) => {
+    const {word} = req.query
+    if(word === '1'){
+        const videos = await Video.find({})
+                                    .sort({duration: 1})
+                                    .limit(9)
+        const stats1 = await stats()
+        const views1 = await views.viewed()
+        const popularVideos = await Videos.popular()
+        const videosTitle = await Video.distinct( "title" )
+        res.render('index', {
+            'videosTitle': videosTitle,
+            'videos': videos,
+            'stats': stats1,
+            'popular': popularVideos,
+            'views': views1,
+            current: 1,
+            pages: 1
+        })
+    }else if(word == '2'){
+        const videos = await Video.find({})
+                                    .sort({duration: -1})
+                                    .limit(9)
+        const stats1 = await stats()
+        const views1 = await views.viewed()
+        const popularVideos = await Videos.popular()
+        const videosTitle = await Video.distinct( "title" )
+        res.render('index', {
+            'videosTitle': videosTitle,
+            'videos': videos,
+            'stats': stats1,
+            'popular': popularVideos,
+            'views': views1,
+            current: 1,
+            pages: 1
+        })
+    }
 }
 
 ctrl.pagination = async (req, res) => {

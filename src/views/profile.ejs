@@ -25,6 +25,7 @@
                       <h5 class="card-title"><%- video.title %></h5>
                       <p class="card-text"><%- video.description %></p>
                       <p class="card-text date-text text-muted"><%- video.date.toISOString() %></p>
+                      <p class="card-text">Duración: <span class="duration-text"><%- video.duration %></span> min.</p>
                       <p>Participantes:</p>
                       <ul>
                         <li id="comments-text"><%= video.authors %></li>

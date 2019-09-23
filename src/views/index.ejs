@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         <form action="/search" method="GET" class="form-inline my-2 my-lg-0">
                             <div class="form-group mr-1">
                                 <select name="title" class="custom-select" required>
@@ -28,10 +28,25 @@
                             </form>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <input class="form-control" type="text"  id="formulario" aria-label="Search" placeholder="Filtro por título...">
                         </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <form action="/filter/video" method="GET" class="form-inline my-2 my-lg-0">
+                            <div class="form-group mr-1">
+                                <select name="word" class="custom-select" required>
+                                    <option selected>Filtrar por duración</option>
+                                    <option value="1">Menor a mayor</option>
+                                    <option value="2">Mayor a menor</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline-info my-1 my-sm-0" type="submit"><i class="fas fa-filter"></i> Aplicar</button>
+                        </form>
                     </div>
                 </div>
                 
@@ -45,7 +60,7 @@
                                 <a href="/video/<%= video._id %>">
                                     <div class="card-body p-1">
                                         <img src="/public/upload/<%= video.filename %>" class="img-fluid w-100 h-100 mb-1" alt="">
-                                        <p class="card-title mt-2"><%= video.description %></p>
+                                        <p class="card-title mt-2"><%= video.description.substr(0,30) %>...</p>
                                         <p class="card-text date-text text-muted"><%= video.date.toISOString() %></p>
                                     </div>
                                 </a>
@@ -127,7 +142,7 @@
         let videos = <%- JSON.stringify(videos) %>
         
         const formulario = document.querySelector('#formulario')
-        const boton = document.querySelector('#boton')
+        //const boton = document.querySelector('#boton')
         const resultado = document.querySelector('#resultados')
 
         const filtrar = () =>{
