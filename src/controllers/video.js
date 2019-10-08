@@ -204,6 +204,18 @@ ctrl.like = async (req, res) => {
     }
 }
 
+ctrl.editVideo = async (req, res) => {
+    const video = await Video.findById(req.params.id)
+    res.render('edit', {
+        video
+    })
+}
+
+ctrl.editPostVideo = async (req, res) => {
+    await Video.findOneAndUpdate({_id: req.params.id}, req.body)
+    res.redirect('/')
+}
+
 ctrl.remove = async (req, res) => {
     const video = await Video.findOne({filename: {$regex: req.params.id}})
     if(video){

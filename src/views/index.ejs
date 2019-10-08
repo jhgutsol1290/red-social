@@ -4,20 +4,6 @@
         <div class="row">
             <div class="col-md-9">
                 <div class="row">
-                    <div class="col-md-5">
-                        <form action="/search" method="GET" class="form-inline my-2 my-lg-0">
-                            <div class="form-group mr-1">
-                                <select name="title" class="custom-select" required>
-                                    <option selected>Filtrar por programa...</option>
-                                    <% videosTitle.map(function(video, i){ %>
-                                        <option><%- video %></option>
-                                    <% }) %>
-                                </select>
-                            </div>
-                            <button class="btn btn-outline-info my-2 my-sm-0" type="submit"><i class="fas fa-filter"></i> Aplicar</button>
-                        </form>
-                    </div>
-
                     <div class="col-md-4">
                             <form action="/search/date" method="GET" class="form-inline my-2 my-lg-0">
                                 <div class="form-group mr-1">
@@ -28,27 +14,28 @@
                             </form>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <input class="form-control" type="text"  id="formulario" aria-label="Search" placeholder="Filtro por título...">
                         </div>
                     </div>
+
+                    <!--<div class="col-md-4">
+                            <form action="/filter/video" method="GET" class="form-inline my-2 my-lg-0">
+                                <div class="form-group mr-1">
+                                    <select name="word" class="custom-select" required>
+                                        <option selected>Filtrar por duración</option>
+                                        <option value="1">Menor a mayor</option>
+                                        <option value="2">Mayor a menor</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-outline-info my-1 my-sm-0" type="submit"><i class="fas fa-filter"></i> Aplicar</button>
+                            </form>
+                        </div>-->
+
                 </div>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <form action="/filter/video" method="GET" class="form-inline my-2 my-lg-0">
-                            <div class="form-group mr-1">
-                                <select name="word" class="custom-select" required>
-                                    <option selected>Filtrar por duración</option>
-                                    <option value="1">Menor a mayor</option>
-                                    <option value="2">Mayor a menor</option>
-                                </select>
-                            </div>
-                            <button class="btn btn-outline-info my-1 my-sm-0" type="submit"><i class="fas fa-filter"></i> Aplicar</button>
-                        </form>
-                    </div>
-                </div>
+                
                 
                 <div class="container text-center p-4 mt-2">
                     <div class="row" id="resultados">

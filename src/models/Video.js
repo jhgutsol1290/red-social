@@ -2,7 +2,7 @@ const {Schema, model} = require('mongoose')
 const path = require('path')
 
 const videoSchema = new Schema({
-    title: {type: String, unique: true},
+    title: {type: String},
     description: {type: String},
     authors: {type: String},
     filename: {type: String},

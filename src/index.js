@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const path = require('path')
 const multer = require('multer')
 const errorHandler = require('errorhandler')
+const flash = require('connect-flash')
 
 const app = express()
 

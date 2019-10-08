@@ -28,6 +28,27 @@ $('#btn-delete').click(function(e){
     }
 })
 
+$('#btn-edit').click(function(e){
+    e.preventDefault()
+    const password = prompt('Ingresa contraseña para editar contenido...')
+    if(password === 'P4ssw0rd'){
+        const res = confirm('¿Seguro que desea editar video?')
+        if(res) {
+            var videoID = $(this).data('id')
+            $.ajax({
+                url: '/video/edit/' + videoID,
+                type: 'GET'
+            })
+            .done(data => {
+                window.location = '/video/edit/' + videoID
+            })
+        }
+    } else {
+        alert('Contraseña inválida')
+    }
+})
+
+
 let dateText = document.getElementsByClassName('date-text')
 let arrayDates = Array.from(dateText)
 let newArrayDates = arrayDates.map(el=>el.textContent)
