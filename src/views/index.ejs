@@ -147,7 +147,7 @@
                                 <a href="/video/${titulo._id}">
                                     <div class="card-body p-1">
                                         <img src="/public/upload/${titulo.filename}" class="img-fluid w-100 h-100 mb-1" alt="">
-                                        <p class="card-title mt-2">${titulo.description}</p>
+                                        <p class="card-title mt-2">${titulo.description.substr(0,30)} ...</p>
                                         <p class="card-text date-text text-muted">${newDate}</p>
                                     </div>
                                 </a>
